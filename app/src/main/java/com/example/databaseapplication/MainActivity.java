@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private final int ADD_CONTACT_REQUEST_CODE = 6961;
     private final int UPDATE_MODE = 6162;
 
+
     AppDatabase database ;
     Button AddContact;
     ListView ContactList;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         RemoveContactDialog = new AlertDialog.Builder(this);
         RemoveContactDialog.setTitle(R.string.action_contact_dialog_title);
 
+
         AddContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
                 String Message ;
                 final User user = (User) contactListAdapter.getItem(position);
+
                 Message = "Do You Want To Remove " + user.firstName +" From Contact List ?";
+
                 RemoveContactDialog.setMessage(Message);
                 RemoveContactDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
@@ -62,11 +66,14 @@ public class MainActivity extends AppCompatActivity {
                         DeleteUser(user);
                     }
                 });
+
                 RemoveContactDialog.setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int _id) {
                         startActivityToEditContact(user.uid);
                     }
                 });
+
+
                 RemoveContactDialog.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -113,14 +120,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(getApplication().toString(),"SOMETHING WENT WRONG");
         }
     }
+
     private ArrayList<User> getUpdatedContactList(){
         return new ArrayList<User>(database.userDao().getAll()) ;
     }
+
     private void startActivityToAddContact(){
         Intent i = new Intent(this,Editor.class);
         i.putExtra("MODE",ADD_CONTACT_REQUEST_CODE);
         startActivityForResult(i,ADD_CONTACT_REQUEST_CODE);
     }
+
     private void startActivityToEditContact(int uid){
         Intent i = new Intent(this,Editor.class);
         i.putExtra("MODE",UPDATE_MODE );
